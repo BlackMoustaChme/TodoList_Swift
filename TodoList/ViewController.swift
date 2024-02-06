@@ -11,7 +11,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var textLabel: UILabel!
     
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var firstVariableTextField: UITextField!
     
     @IBOutlet weak var operationTypeSelectionButton: UIButton!
     
@@ -21,17 +21,32 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var resultTextField: UITextField!
     
+    @IBOutlet weak var sumOperationCommand: UICommand!
+    
+    @IBOutlet weak var substractOperationCommand: UICommand!
+    
+    @IBOutlet weak var divideOperationCommand: UICommand!
+    
+    @IBOutlet weak var multiplyOperationCommand: UICommand!
+    
     var firstVariable: String = ""
     
     var secondVariable: String = ""
     
     var operationType = OperationType.sum
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         print("Hello world!")
+        firstVariableTextField.text = "0"
+        secondVariableTextField.text = "0"
         resultTextField.text = "0"
+        sumOperationCommand.title = "+"
+        substractOperationCommand.title = "-"
+        divideOperationCommand.title = "/"
+        multiplyOperationCommand.title = "*"
         
     }
     
@@ -41,8 +56,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onFirstVariableEditingChanged(_ sender: Any) {
-        textLabel.text = textField.text
-        firstVariable = textField.text ?? "0"
+        firstVariable = firstVariableTextField.text ?? "0"
     }
     
     
@@ -50,7 +64,9 @@ class ViewController: UIViewController {
         secondVariable = secondVariableTextField.text ?? "0"
     }
     
-    
+    @IBAction func onResultButtonTouchUpInside(_ sender: Any) {
+        
+    }
     
 }
 
