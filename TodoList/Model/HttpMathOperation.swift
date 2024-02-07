@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct HttpMathOperation {
+struct HttpMathOperation: MathOperationProtocol{
     
-    func sum(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) {
+    func sum(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) -> Double {
         let session = URLSession.shared
         var request = URLRequest(url: URL(string:
                                             "http://localhost:8080/calculator_back3735975708565893560/api/calc/summator?a=\(a)&b=\(b)")!)
@@ -26,9 +26,10 @@ struct HttpMathOperation {
             }
         }
         task.resume()
+        return 0
     }
     
-    func substract(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) {
+    func substract(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) -> Double {
         let session = URLSession.shared
         var request = URLRequest(url: URL(string:
                                             "http://localhost:8080/calculator_back3735975708565893560/api/calc/substractor?a=\(a)&b=\(b)")!)
@@ -45,9 +46,10 @@ struct HttpMathOperation {
             }
         }
         task.resume()
+        return 0
     }
     
-    func divide(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) {
+    func divide(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) -> Double {
         let session = URLSession.shared
         var request = URLRequest(url: URL(string:
                                             "http://localhost:8080/calculator_back3735975708565893560/api/calc/divisor?a=\(a)&b=\(b)")!)
@@ -64,9 +66,10 @@ struct HttpMathOperation {
             }
         }
         task.resume()
+        return 0
     }
     
-    func multiply(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) {
+    func multiply(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) -> Double {
         let session = URLSession.shared
         var request = URLRequest(url: URL(string:
                                             "http://localhost:8080/calculator_back3735975708565893560/api/calc/multiplicator?a=\(a)&b=\(b)")!)
@@ -83,6 +86,7 @@ struct HttpMathOperation {
             }
         }
         task.resume()
+        return 0
     }
     
 }

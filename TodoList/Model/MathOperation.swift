@@ -7,21 +7,21 @@
 
 import Foundation
 
-struct MathOperation {
+struct MathOperation: MathOperationProtocol{
     
-    func sum(_ a: Double, _ b: Double) -> Double {
+    func sum(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) -> Double {
         return a + b
     }
     
-    func substract(_ a: Double, _ b: Double) -> Double {
+    func substract(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) -> Double {
         return a - b
     }
     
-    func divide(_ a: Double, _ b: Double) -> Double {
+    func divide(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) -> Double {
         return a / b
     }
     
-    func multiply(_ a: Double, _ b: Double) -> Double {
+    func multiply(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) -> Double {
         return a * b
     }
         
