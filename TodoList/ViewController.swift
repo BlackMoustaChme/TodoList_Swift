@@ -37,11 +37,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+//         Do any additional setup after loading the view.
         firstVariableTextLabel.text = "First Variable"
         secondVariableTextLabel.text = "Second Variable"
-        firstVariableTextField.text = "0"
-        secondVariableTextField.text = "0"
+//        firstVariableTextField.text = "0"
+//        secondVariableTextField.text = "0"
         operationTypeTextLabel.text = "Operation Type (+, -, /, *)"
         resultTextLabel.text = "Result"
         resultTextField.text = "0"
@@ -56,32 +56,24 @@ class ViewController: UIViewController {
     @IBAction func onFirstVariableEditingChanged(_ sender: Any) {
         firstVariable = firstVariableTextField.text ?? "0"
     }
-    
-    
     @IBAction func onSecondVariableEditingChanged(_ sender: Any) {
         secondVariable = secondVariableTextField.text ?? "0"
     }
     
     @IBAction func onEditingDidEnd(_ sender: Any) {
-        switch operationTypeTextField.text {
-        case "+":
-            operationType = .sum
-        case "-":
-            operationType = .substract
-        case "/":
-            operationType = .divide
-        case "*":
-            operationType = .multiply
-        default:
-            operationTypeTextLabel.text = "Error"
-        }
+        operationType = operationTypeTextField.text.flatMap { OperationType(rawValue: $0) } ?? .sum
     }
+    
     @IBAction func onResultButtonTouchUpInside(_ sender: Any) {
         var a: Double = Double(firstVariable) ?? 0
         var b: Double = Double(secondVariable) ?? 0
         switch operationType {
         case .sum:
             resultTextField.text = String(mathOperation.sum(a, b))
+//            mathOperation.test(a, b) { (value) -> Void in
+//                let result = String(value)
+//                self.resultTextField.text = result
+//            }
         case .substract:
             resultTextField.text = String(mathOperation.substract(a, b))
         case .divide:

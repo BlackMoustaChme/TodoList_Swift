@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum OperationType {
+enum OperationType: String {
     
-    case sum, substract, divide, multiply
+    case sum = "+", substract = "-", divide = "/", multiply = "*"
     
 }
