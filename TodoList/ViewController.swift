@@ -35,6 +35,8 @@ class ViewController: UIViewController {
     
     var mathOperation = MathOperation()
     
+    var httpMathOperation = HttpMathOperation()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //         Do any additional setup after loading the view.
@@ -69,17 +71,29 @@ class ViewController: UIViewController {
         var b: Double = Double(secondVariable) ?? 0
         switch operationType {
         case .sum:
-            resultTextField.text = String(mathOperation.sum(a, b))
-//            mathOperation.test(a, b) { (value) -> Void in
-//                let result = String(value)
-//                self.resultTextField.text = result
-//            }
+//            resultTextField.text = String(mathOperation.sum(a, b))
+            httpMathOperation.sum(a, b) { (value) -> Void in
+                let result = String(value)
+                self.resultTextField.text = result
+            }
         case .substract:
-            resultTextField.text = String(mathOperation.substract(a, b))
+//            resultTextField.text = String(mathOperation.substract(a, b))
+            httpMathOperation.substract(a, b) { (value) -> Void in
+                let result = String(value)
+                self.resultTextField.text = result
+            }
         case .divide:
-            resultTextField.text = String(mathOperation.divide(a, b))
+//            resultTextField.text = String(mathOperation.divide(a, b))
+            httpMathOperation.divide(a, b) { (value) -> Void in
+                let result = String(value)
+                self.resultTextField.text = result
+            }
         case .multiply:
-            resultTextField.text = String(mathOperation.multiply(a, b))
+//            resultTextField.text = String(mathOperation.multiply(a, b))
+            httpMathOperation.multiply(a, b) { (value) -> Void in
+                let result = String(value)
+                self.resultTextField.text = result
+            }
         }
     }
     
