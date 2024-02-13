@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct HttpMathOperation: MathOperationProtocol{
+struct HttpMathOperation: MathOperationProtocol {
     
-    func sum(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) -> Double {
+    func sum(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) {
         let session = URLSession.shared
         var request = URLRequest(url: URL(string:
                                             "http://localhost:8080/calculator_back3735975708565893560/api/calc/summator?a=\(a)&b=\(b)")!)
@@ -26,10 +26,9 @@ struct HttpMathOperation: MathOperationProtocol{
             }
         }
         task.resume()
-        return 0
     }
     
-    func substract(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) -> Double {
+    func substract(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) {
         let session = URLSession.shared
         var request = URLRequest(url: URL(string:
                                             "http://localhost:8080/calculator_back3735975708565893560/api/calc/substractor?a=\(a)&b=\(b)")!)
@@ -46,10 +45,9 @@ struct HttpMathOperation: MathOperationProtocol{
             }
         }
         task.resume()
-        return 0
     }
     
-    func divide(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) -> Double {
+    func divide(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) {
         let session = URLSession.shared
         var request = URLRequest(url: URL(string:
                                             "http://localhost:8080/calculator_back3735975708565893560/api/calc/divisor?a=\(a)&b=\(b)")!)
@@ -66,10 +64,9 @@ struct HttpMathOperation: MathOperationProtocol{
             }
         }
         task.resume()
-        return 0
     }
     
-    func multiply(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) -> Double {
+    func multiply(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void) {
         let session = URLSession.shared
         var request = URLRequest(url: URL(string:
                                             "http://localhost:8080/calculator_back3735975708565893560/api/calc/multiplicator?a=\(a)&b=\(b)")!)
@@ -86,7 +83,6 @@ struct HttpMathOperation: MathOperationProtocol{
             }
         }
         task.resume()
-        return 0
     }
     
 }

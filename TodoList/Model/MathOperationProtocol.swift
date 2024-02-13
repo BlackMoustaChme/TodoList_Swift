@@ -9,12 +9,12 @@ import Foundation
 
 protocol MathOperationProtocol {
     
-    func sum(_ a: Double, _ b: Double, _ copletion: @escaping (Double) -> Void) -> Double
+    func sum(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void)
     
-    func substract(_ a: Double, _ b: Double, _ copletion: @escaping (Double) -> Void) -> Double
+    func substract(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void)
     
-    func divide(_ a: Double, _ b: Double, _ copletion: @escaping (Double) -> Void) -> Double
+    func divide(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void)
     
-    func multiply(_ a: Double, _ b: Double, _ copletion: @escaping (Double) -> Void) -> Double
+    func multiply(_ a: Double, _ b: Double, _ completion: @escaping (Double) -> Void)
     
 }

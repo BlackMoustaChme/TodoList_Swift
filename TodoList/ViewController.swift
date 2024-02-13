@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SwiftUI
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var firstVariableTextLabel: UILabel!
@@ -27,15 +29,19 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var resultTextField: UITextField!
     
+    @IBOutlet weak var tableVIew: UITableView!
+    
     var firstVariable: String = ""
     
     var secondVariable: String = ""
     
     var operationType = OperationType.sum
     
-    var mathOperation = MathOperation()
+    let mathOperation: MathOperationProtocol = HttpMathOperation()
     
-    var httpMathOperation = HttpMathOperation()
+    let todoRequest = TodoRequest()
+    
+    private let dataSource = DataSource()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +53,8 @@ class ViewController: UIViewController {
         operationTypeTextLabel.text = "Operation Type (+, -, /, *)"
         resultTextLabel.text = "Result"
         resultTextField.text = "0"
+        tableVIew.dataSource = dataSource
+        tableVIew.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell")
         
     }
     
@@ -72,30 +80,56 @@ class ViewController: UIViewController {
         switch operationType {
         case .sum:
 //            resultTextField.text = String(mathOperation.sum(a, b))
-            httpMathOperation.sum(a, b) { (value) -> Void in
+            mathOperation.sum(a, b) { [weak self] value in
                 let result = String(value)
-                self.resultTextField.text = result
+                self?.resultTextField.text = result
+            }
+            todoRequest.auth { [weak self] value in
+                self?.todoRequest.getTodo(value) {
+                }
             }
         case .substract:
 //            resultTextField.text = String(mathOperation.substract(a, b))
-            httpMathOperation.substract(a, b) { (value) -> Void in
+            mathOperation.substract(a, b) { [weak self] value in
                 let result = String(value)
-                self.resultTextField.text = result
+                self?.resultTextField.text = result
             }
         case .divide:
 //            resultTextField.text = String(mathOperation.divide(a, b))
-            httpMathOperation.divide(a, b) { (value) -> Void in
+            mathOperation.divide(a, b) { [weak self] value in
                 let result = String(value)
-                self.resultTextField.text = result
+                self?.resultTextField.text = result
             }
         case .multiply:
 //            resultTextField.text = String(mathOperation.multiply(a, b))
-            httpMathOperation.multiply(a, b) { (value) -> Void in
+            mathOperation.multiply(a, b) { [weak self] value in
                 let result = String(value)
-                self.resultTextField.text = result
+                self?.resultTextField.text = result
             }
         }
     }
     
+    
+    @IBAction func onButton(_ sender: Any) {
+        let controller = UIHostingController(rootView: SwiftUIView())
+        present(controller, animated: true)
+    }
+    
+    
+}
+
+private extension ViewController {
+    final class DataSource: NSObject, UITableViewDataSource {
+        func numberOfSections(in tableView: UITableView) -> Int {
+            return 1
+        }
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return 100
+        }
+        
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath)
+        }
+    }
 }
 
