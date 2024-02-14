@@ -50,7 +50,6 @@ struct TodoRequest {
             }
             do {
                 if let data = data {
-                    print(String(data:data, encoding:.utf8)!)
                     let todoArrayJson = try JSONDecoder().decode([Todo].self, from: data)
                     DispatchQueue.main.async {
                         completion(todoArrayJson)
