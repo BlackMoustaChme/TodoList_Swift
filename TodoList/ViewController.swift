@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var resultTextField: UITextField!
     
-    @IBOutlet weak var tableVIew: UITableView!
+    @IBOutlet weak var tableView: UITableView!
     
     var firstVariable: String = ""
     
@@ -39,8 +39,6 @@ class ViewController: UIViewController {
     
     let mathOperation: MathOperationProtocol = HttpMathOperation()
     
-    let todoRequest = TodoRequest()
-    
     private let dataSource = DataSource()
     
     override func viewDidLoad() {
@@ -48,14 +46,11 @@ class ViewController: UIViewController {
 //         Do any additional setup after loading the view.
         firstVariableTextLabel.text = "First Variable"
         secondVariableTextLabel.text = "Second Variable"
-//        firstVariableTextField.text = "0"
-//        secondVariableTextField.text = "0"
         operationTypeTextLabel.text = "Operation Type (+, -, /, *)"
         resultTextLabel.text = "Result"
         resultTextField.text = "0"
-        tableVIew.dataSource = dataSource
-        tableVIew.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell")
-        
+        tableView.dataSource = dataSource
+        tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -84,10 +79,6 @@ class ViewController: UIViewController {
                 let result = String(value)
                 self?.resultTextField.text = result
             }
-            todoRequest.auth { [weak self] value in
-                self?.todoRequest.getTodo(value) {
-                }
-            }
         case .substract:
 //            resultTextField.text = String(mathOperation.substract(a, b))
             mathOperation.substract(a, b) { [weak self] value in
@@ -109,26 +100,36 @@ class ViewController: UIViewController {
         }
     }
     
-    
     @IBAction func onButton(_ sender: Any) {
         let controller = UIHostingController(rootView: SwiftUIView())
         present(controller, animated: true)
     }
     
-    
 }
 
 private extension ViewController {
     final class DataSource: NSObject, UITableViewDataSource {
+        
+        let todoRequest = TodoRequest()
+        
         func numberOfSections(in tableView: UITableView) -> Int {
             return 1
         }
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 100
+            return 7
         }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
+            todoRequest.auth { [weak self] value in
+                self?.todoRequest.getTodo(value) { value in
+                    let todo = value[indexPath.row] as Todo
+                    cell.titleTextLabel.text = todo.title
+                    cell.dateTextLabel.text = todo.creationDate
+                    cell.descriptionTextLabel.text = todo.text
+                }
+            }
+            return cell
         }
     }
 }

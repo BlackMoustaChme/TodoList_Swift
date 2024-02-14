@@ -36,34 +36,31 @@ struct TodoRequest {
         task.resume()
     }
     
-    
-    func getTodo(_ token: String, _ completion: @escaping () -> Void) {
+    func getTodo(_ token: String, _ completion: @escaping ([Todo]) -> Void) {
         let session = URLSession.shared
         var request = URLRequest(url: URL(string: "http://localhost:8080/todo_list-13842842538728320721.0-SNAPSHOT/api/todo/")!)
-        print("getTodo_1: \(token)")
         var _token = token
         _token.removeLast()
         _token.removeFirst()
-        print("getTodo_2: \(_token)")
         request.allHTTPHeaderFields = ["Token": _token]
-        print("getTodo_3: \(String(describing: request.allHTTPHeaderFields))")
         let task = session.dataTask(with: request) { data, response, error in
-//            let todoList = data.flatMap(S)
             if let error = error {
-                print("getTodo_4: \(error)")
+                print("getTodo_1: \(error)")
                 return
             }
             do {
                 if let data = data {
                     print(String(data:data, encoding:.utf8)!)
                     let todoArrayJson = try JSONDecoder().decode([Todo].self, from: data)
-                    print(todoArrayJson)
+                    DispatchQueue.main.async {
+                        completion(todoArrayJson)
+                    }
                 } else {
                     print("smth else")
                     return
                 }
             } catch {
-                print("getTodo_5: \(error)")
+                print("getTodo_2: \(error)")
             }
         }
         task.resume()

@@ -118,7 +118,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="jyj-iX-x8l">
-                                <rect key="frame" x="117" y="669" width="240" height="128"/>
+                                <rect key="frame" x="16" y="669" width="361" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
@@ -147,7 +147,7 @@
                         <outlet property="resultTextLabel" destination="b6V-8w-8KM" id="Qv0-yQ-Nqc"/>
                         <outlet property="secondVariableTextField" destination="ZrJ-e6-mc7" id="csU-AI-GB3"/>
                         <outlet property="secondVariableTextLabel" destination="I1s-b9-OkL" id="mF4-e0-lVo"/>
-                        <outlet property="tableVIew" destination="jyj-iX-x8l" id="b5a-xD-3P6"/>
+                        <outlet property="tableView" destination="jyj-iX-x8l" id="mdZ-is-rMe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
