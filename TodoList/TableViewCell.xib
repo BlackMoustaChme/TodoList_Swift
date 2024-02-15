@@ -39,6 +39,12 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QOq-ML-mxV">
+                        <rect key="frame" x="255" y="40" width="24" height="14"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain"/>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="e97-Ck-UYN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="6c5-Vi-gP9"/>
@@ -52,6 +58,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="checkButton" destination="QOq-ML-mxV" id="sHj-5m-rpU"/>
                 <outlet property="dateTextLabel" destination="5Hd-qN-ujO" id="rq9-Ab-x83"/>
                 <outlet property="descriptionTextLabel" destination="ef0-dx-Mi1" id="fE1-IR-aMe"/>
                 <outlet property="titleTextLabel" destination="e97-Ck-UYN" id="Liy-r2-7Vk"/>

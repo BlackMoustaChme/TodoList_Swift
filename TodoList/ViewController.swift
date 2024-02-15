@@ -41,6 +41,10 @@ class ViewController: UIViewController {
     
     private let dataSource = DataSource()
     
+    private let delegate = Delegate()
+    
+    let todoRequest = TodoRequest()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //         Do any additional setup after loading the view.
@@ -50,12 +54,25 @@ class ViewController: UIViewController {
         resultTextLabel.text = "Result"
         resultTextField.text = "0"
         tableView.dataSource = dataSource
+        tableView.delegate = delegate
+        delegate.parent = self
         tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell")
+        todoRequest.auth { [weak self, dataSource] value in
+            self?.todoRequest.getTodo(value) { value in
+                dataSource.todos = value
+                self?.tableView.reloadData()
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("Hello world!")
+    }
+    
+    private func didSelectRow(at indexPath: IndexPath) {
+        let todo = dataSource.todos[indexPath.row]
+        print(todo)
     }
     
     @IBAction func onFirstVariableEditingChanged(_ sender: Any) {
@@ -112,24 +129,35 @@ private extension ViewController {
         
         let todoRequest = TodoRequest()
         
+        var todos: [Todo] = []
+        
         func numberOfSections(in tableView: UITableView) -> Int {
             return 1
         }
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 7
+            return todos.count
         }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
-            todoRequest.auth { [weak self] value in
-                self?.todoRequest.getTodo(value) { value in
-                    let todo = value[indexPath.row] as Todo
-                    cell.titleTextLabel.text = todo.title
-                    cell.dateTextLabel.text = todo.creationDate
-                    cell.descriptionTextLabel.text = todo.text
-                }
+            let todo = todos[indexPath.row]
+            cell.titleTextLabel.text = todo.title
+            cell.dateTextLabel.text = todo.creationDate
+            cell.descriptionTextLabel.text = todo.text
+            if todo.check {
+                cell.checkButton.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
+            } else {
+                cell.checkButton.setImage(UIImage(systemName: "square"), for: .normal)
             }
             return cell
+        }
+    }
+    
+    final class Delegate: NSObject, UITableViewDelegate {
+        weak var parent: ViewController?
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            tableView.deselectRow(at: indexPath, animated: true)
+            parent?.didSelectRow(at: indexPath)
         }
     }
 }

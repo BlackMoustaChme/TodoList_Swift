@@ -15,7 +15,7 @@ class TableViewCell: UITableViewCell {
     
     @IBOutlet weak var descriptionTextLabel: UILabel!
     
-    let todoRequest = TodoRequest()
+    @IBOutlet weak var checkButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
