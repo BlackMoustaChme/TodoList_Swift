@@ -10,34 +10,8 @@ import UIKit
 import SwiftUI
 
 class ViewController: UIViewController {
-
-    @IBOutlet weak var firstVariableTextLabel: UILabel!
-    
-    @IBOutlet weak var secondVariableTextLabel: UILabel!
-    
-    @IBOutlet weak var firstVariableTextField: UITextField!
-    
-    @IBOutlet weak var secondVariableTextField: UITextField!
-    
-    @IBOutlet weak var operationTypeTextLabel: UILabel!
-    
-    @IBOutlet weak var operationTypeTextField: UITextField!
-    
-    @IBOutlet weak var resultButton: UIButton!
-
-    @IBOutlet weak var resultTextLabel: UILabel!
-    
-    @IBOutlet weak var resultTextField: UITextField!
     
     @IBOutlet weak var tableView: UITableView!
-    
-    var firstVariable: String = ""
-    
-    var secondVariable: String = ""
-    
-    var operationType = OperationType.sum
-    
-    let mathOperation: MathOperationProtocol = HttpMathOperation()
     
     private let dataSource = DataSource()
     
@@ -45,24 +19,25 @@ class ViewController: UIViewController {
     
     let todoRequest = TodoRequest()
     
+    let userDefaults = UserDefaults.standard
+    
+    var token: String? {
+        get {
+            userDefaults.string(forKey: "token")
+        }
+        set {
+            userDefaults.setValue(newValue, forKey: "token")
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //         Do any additional setup after loading the view.
-        firstVariableTextLabel.text = "First Variable"
-        secondVariableTextLabel.text = "Second Variable"
-        operationTypeTextLabel.text = "Operation Type (+, -, /, *)"
-        resultTextLabel.text = "Result"
-        resultTextField.text = "0"
         tableView.dataSource = dataSource
         tableView.delegate = delegate
         delegate.parent = self
         tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell")
-        todoRequest.auth { [weak self, dataSource] value in
-            self?.todoRequest.getTodo(value) { value in
-                dataSource.todos = value
-                self?.tableView.reloadData()
-            }
-        }
+        Task { await requestTodos() }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -70,55 +45,82 @@ class ViewController: UIViewController {
         print("Hello world!")
     }
     
-    private func didSelectRow(at indexPath: IndexPath) {
-        let todo = dataSource.todos[indexPath.row]
-        print(todo)
+    private func requestToken() async throws -> String {
+        if let token {
+            return token
+        }
+        let newToken = try await todoRequest.auth()
+        token = newToken
+        return newToken
     }
     
-    @IBAction func onFirstVariableEditingChanged(_ sender: Any) {
-        firstVariable = firstVariableTextField.text ?? "0"
-    }
-    @IBAction func onSecondVariableEditingChanged(_ sender: Any) {
-        secondVariable = secondVariableTextField.text ?? "0"
-    }
-    
-    @IBAction func onEditingDidEnd(_ sender: Any) {
-        operationType = operationTypeTextField.text.flatMap { OperationType(rawValue: $0) } ?? .sum
-    }
-    
-    @IBAction func onResultButtonTouchUpInside(_ sender: Any) {
-        var a: Double = Double(firstVariable) ?? 0
-        var b: Double = Double(secondVariable) ?? 0
-        switch operationType {
-        case .sum:
-//            resultTextField.text = String(mathOperation.sum(a, b))
-            mathOperation.sum(a, b) { [weak self] value in
-                let result = String(value)
-                self?.resultTextField.text = result
-            }
-        case .substract:
-//            resultTextField.text = String(mathOperation.substract(a, b))
-            mathOperation.substract(a, b) { [weak self] value in
-                let result = String(value)
-                self?.resultTextField.text = result
-            }
-        case .divide:
-//            resultTextField.text = String(mathOperation.divide(a, b))
-            mathOperation.divide(a, b) { [weak self] value in
-                let result = String(value)
-                self?.resultTextField.text = result
-            }
-        case .multiply:
-//            resultTextField.text = String(mathOperation.multiply(a, b))
-            mathOperation.multiply(a, b) { [weak self] value in
-                let result = String(value)
-                self?.resultTextField.text = result
-            }
+    private func requestTodos() async {
+        do {
+            let token = try await requestToken()
+            dataSource.todos = try await todoRequest.getTodo(token)
+            tableView.reloadData()
+        } catch {
+            print(error)
         }
     }
     
-    @IBAction func onButton(_ sender: Any) {
-        let controller = UIHostingController(rootView: SwiftUIView())
+    private func addTodo(_ todo: Todo) async {
+        do {
+            let token = try await requestToken()
+            try await todoRequest.postTodo(todo, token)
+            await requestTodos()
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func updateTodo(_ todo: Todo) async {
+        do {
+            let token = try await requestToken()
+            try await todoRequest.putTodo(todo, token)
+            await requestTodos()
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func deleteTodo(_ todo: Todo) async {
+        do {
+            let token = try await requestToken()
+            try await todoRequest.deleteTodo(todo, token)
+            await requestTodos()
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func didSelectRow(at indexPath: IndexPath) {
+        let todo = dataSource.todos[indexPath.row]
+        print(todo)
+        let controller = UIHostingController(rootView: SwiftUIView(todo: todo, onSave: { [weak self] todo in
+            print(todo)
+            Task { await self?.updateTodo(todo) }
+        }))
+        present(controller, animated: true)
+    }
+    
+    private func trailingSwipeActionsConfigurationForRow(at indexPath: IndexPath) {
+        let todo = dataSource.todos[indexPath.row]
+        Task { await deleteTodo(todo) }
+    }
+    
+    private func onCheckButton() {
+        
+    }
+    
+    
+    @IBAction func onAddButton(_ sender: Any) {
+        let todo = Todo(id: 1, title: "Title", creationDate: "01.01.2001", text: "Avas", check: false)
+        print(todo)
+        let controller = UIHostingController(rootView: SwiftUIView(todo: todo, onSave: { [weak self] todo in
+            print(todo)
+            Task {await self?.addTodo(todo)}
+        }))
         present(controller, animated: true)
     }
     
@@ -126,6 +128,8 @@ class ViewController: UIViewController {
 
 private extension ViewController {
     final class DataSource: NSObject, UITableViewDataSource {
+        
+        weak var parent: ViewController?
         
         let todoRequest = TodoRequest()
         
@@ -149,15 +153,32 @@ private extension ViewController {
             } else {
                 cell.checkButton.setImage(UIImage(systemName: "square"), for: .normal)
             }
+            cell.onCheck = {
+                
+            }
             return cell
         }
+        
     }
     
     final class Delegate: NSObject, UITableViewDelegate {
+        
         weak var parent: ViewController?
+        
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             tableView.deselectRow(at: indexPath, animated: true)
             parent?.didSelectRow(at: indexPath)
+        }
+        
+        func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+            let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, handler) in
+                self?.parent?.trailingSwipeActionsConfigurationForRow(at: indexPath)
+                handler(true)
+            }
+            deleteAction.backgroundColor = .red
+            let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+            configuration.performsFirstActionWithFullSwipe = false
+            return configuration
         }
     }
 }

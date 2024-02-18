@@ -17,6 +17,8 @@ class TableViewCell: UITableViewCell {
     
     @IBOutlet weak var checkButton: UIButton!
     
+    var onCheck: (() -> Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

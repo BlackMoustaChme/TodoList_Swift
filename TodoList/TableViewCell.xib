@@ -32,28 +32,33 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="5Hd-qN-ujO" firstAttribute="leading" secondItem="cht-v8-BkB" secondAttribute="leading" id="tIM-FQ-nvU"/>
+                        </constraints>
                     </stackView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e97-Ck-UYN" userLabel="Title Text Label">
-                        <rect key="frame" x="15" y="10.000000000000002" width="305" height="24.666666666666671"/>
+                        <rect key="frame" x="15" y="10.000000000000002" width="265" height="24.666666666666671"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QOq-ML-mxV">
-                        <rect key="frame" x="255" y="40" width="24" height="14"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QOq-ML-mxV">
+                        <rect key="frame" x="280" y="25.666666666666664" width="25" height="25"/>
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="plain"/>
                     </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="QOq-ML-mxV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="280" id="6Lr-vw-qP9"/>
                     <constraint firstItem="e97-Ck-UYN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="6c5-Vi-gP9"/>
+                    <constraint firstItem="QOq-ML-mxV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="cht-v8-BkB" secondAttribute="trailing" id="AEf-El-9DO"/>
                     <constraint firstAttribute="bottom" secondItem="cht-v8-BkB" secondAttribute="bottom" constant="10" id="K3T-Rt-jHa"/>
-                    <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="e97-Ck-UYN" secondAttribute="trailing" id="XGU-jZ-sXc"/>
+                    <constraint firstItem="QOq-ML-mxV" firstAttribute="leading" relation="lessThanOrEqual" secondItem="e97-Ck-UYN" secondAttribute="trailing" id="NSy-Lm-IUa"/>
                     <constraint firstItem="cht-v8-BkB" firstAttribute="top" secondItem="e97-Ck-UYN" secondAttribute="bottom" constant="10" id="Zxd-HQ-6FO"/>
                     <constraint firstItem="e97-Ck-UYN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="avB-MZ-wAz"/>
                     <constraint firstItem="cht-v8-BkB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="kc7-Jq-kZq"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cht-v8-BkB" secondAttribute="trailing" id="pRy-XL-vsw"/>
+                    <constraint firstItem="QOq-ML-mxV" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="kn1-x7-tba"/>
+                    <constraint firstAttribute="trailing" secondItem="QOq-ML-mxV" secondAttribute="trailing" constant="15" id="oUc-qg-dfE"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
