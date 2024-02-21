@@ -13,6 +13,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var addButton: UIButton!
+    
     private let dataSource = DataSource()
     
     private let delegate = Delegate()
@@ -21,21 +23,23 @@ class ViewController: UIViewController {
     
     let userDefaults = UserDefaults.standard
     
-    var token: String? {
-        get {
-            userDefaults.string(forKey: "token")
-        }
-        set {
-            userDefaults.setValue(newValue, forKey: "token")
-        }
-    }
+    var token: String? //{
+//        get {
+//            userDefaults.string(forKey: "token")
+//        }
+//        set {
+//            userDefaults.setValue(newValue, forKey: "token")
+//        }
+    //}
     
     override func viewDidLoad() {
         super.viewDidLoad()
 //         Do any additional setup after loading the view.
+        addButton.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
         tableView.dataSource = dataSource
         tableView.delegate = delegate
         delegate.parent = self
+        dataSource.parent = self
         tableView.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell")
         Task { await requestTodos() }
     }
@@ -109,13 +113,18 @@ class ViewController: UIViewController {
         Task { await deleteTodo(todo) }
     }
     
-    private func onCheckButton() {
-        
+    private func onCheckButton(at indexPath: IndexPath) {
+        var todo = dataSource.todos[indexPath.row]
+        todo.check.toggle()
+        Task { await updateTodo(todo) }
     }
     
     
     @IBAction func onAddButton(_ sender: Any) {
-        let todo = Todo(id: 1, title: "Title", creationDate: "01.01.2001", text: "Avas", check: false)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+        let currentDate = dateFormatter.string(from: Date.now)
+        let todo = Todo(id: 0, title: "", creationDate: currentDate, text: "", check: false)
         print(todo)
         let controller = UIHostingController(rootView: SwiftUIView(todo: todo, onSave: { [weak self] todo in
             print(todo)
@@ -153,8 +162,8 @@ private extension ViewController {
             } else {
                 cell.checkButton.setImage(UIImage(systemName: "square"), for: .normal)
             }
-            cell.onCheck = {
-                
+            cell.onCheck = { [weak self] in
+                self?.parent?.onCheckButton(at: indexPath)
             }
             return cell
         }

@@ -17,16 +17,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="jyj-iX-x8l">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="700"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yDq-tc-suz">
-                                <rect key="frame" x="159" y="408" width="75" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v27-5k-0LW" userLabel="Add Button">
+                                <rect key="frame" x="324" y="773" width="24" height="45"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain"/>
                                 <connections>
-                                    <action selector="onAddButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nam-n2-bJx"/>
+                                    <action selector="onAddButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZJc-fe-aH9"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -35,11 +34,17 @@
                         <constraints>
                             <constraint firstItem="jyj-iX-x8l" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="2lr-Tn-wcC"/>
                             <constraint firstItem="jyj-iX-x8l" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="BMb-TX-b4l"/>
-                            <constraint firstItem="jyj-iX-x8l" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="GQ5-0l-VIy"/>
-                            <constraint firstItem="jyj-iX-x8l" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="eUP-fR-mSW"/>
+                            <constraint firstItem="v27-5k-0LW" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="303" id="EFi-YU-frb"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="jyj-iX-x8l" secondAttribute="trailing" id="PIw-mi-bWH"/>
+                            <constraint firstItem="jyj-iX-x8l" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Qxd-cY-m6n"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="v27-5k-0LW" secondAttribute="bottom" id="Y0x-9p-kcX"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="v27-5k-0LW" secondAttribute="trailing" constant="45" id="fy1-Pl-um1"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="jyj-iX-x8l" secondAttribute="bottom" constant="59" id="rIR-j1-dlF"/>
+                            <constraint firstItem="v27-5k-0LW" firstAttribute="top" secondItem="jyj-iX-x8l" secondAttribute="bottom" constant="14" id="wfk-b3-UKb"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addButton" destination="v27-5k-0LW" id="rya-D7-C5c"/>
                         <outlet property="tableView" destination="jyj-iX-x8l" id="mdZ-is-rMe"/>
                     </connections>
                 </viewController>
